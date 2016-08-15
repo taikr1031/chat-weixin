@@ -84,15 +84,6 @@ angular.module('chat.chatService', [])
             $http.get(url).then(function (res) {
               console.log('chat update success');
             });
-            //$.ajax({
-            //  async: false,
-            //  type: 'GET',
-            //  url: url,
-            //  dataType: 'json',
-            //  success: function (data) {
-            //    console.log('chat update success');
-            //  }
-            //});
           },
 
           deleteChatId: function (id) {
