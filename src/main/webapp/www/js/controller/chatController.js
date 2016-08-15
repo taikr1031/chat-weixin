@@ -12,14 +12,13 @@ angular.module('chat.chatController', [])
           userName: $scope.userModel.userName
         };
 
-        var promiseChats = chatFactory.getQueryChat(); // 同步调用，获得承诺接口
+        var promiseChats = chatFactory.getOwnChatList(); // 同步调用，获得承诺接口
         promiseChats.then(function(data) { // 调用承诺API获取数据 .resolve
           $scope.chats = data.chatList;
           $rootScope.chatList = data.chatList;
         }, function(data) { // 处理错误 .reject
           console.log('queryChat error!');
         });
-        console.log($scope.chats);
         var userId = chatService.getUserId();
         $scope.userModel.userId = userId;
         console.log('beforeEnter userId: ' + $scope.userModel.userId);

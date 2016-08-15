@@ -1,7 +1,7 @@
 angular.module('chat.chatService', [])
     .factory('chatFactory', function($http, $q) {
       return {
-        getQueryChat: function() {
+        getOwnChatList: function() {
           var url = SITE + '/chat/queryChat.json';
           var deferred = $q.defer(); // 声明延后执行，表示要去监控后面的执行
           $http.get(url).success(function (data, status, headers, config) {
@@ -45,7 +45,7 @@ angular.module('chat.chatService', [])
             }
           },
 
-          getQueryChat: function() {
+          getOwnChatList: function() {
             var promiseChats = chatService.queryChat(); // 同步调用，获得承诺接口
             promiseChats.then(function(data) { // 调用承诺API获取数据 .resolve
               chatData = data.chatList;
