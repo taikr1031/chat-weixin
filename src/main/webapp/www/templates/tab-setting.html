@@ -1,0 +1,19 @@
+<ion-header-bar align-title="left" class="bar-dark">
+  <div class="h1 title">微信(16)</div>
+  <div class="buttons">
+    <button class="button no-animation button-icon icon ion-android-search">
+    </button>
+    <button class="button no-animation button-icon icon ion-android-add">
+    </button>
+  </div>
+</ion-header-bar>
+
+<ion-view>
+  <ion-content on-swipe-right="onSwipeRight()">
+    <ion-list rj-close-back-drop>
+      <ion-item class="item-avatar" ng-repeat="friend in friends.$$state.value.userList">
+        <h2 ng-bind="friend.name" ng-click="loginChat(friend.name, friend.password)"></h2>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>
