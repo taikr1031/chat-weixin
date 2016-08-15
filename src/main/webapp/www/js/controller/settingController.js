@@ -7,6 +7,7 @@ angular.module('chat.settingController', [])
           $scope.friends = data;
         }, 0);
       });
+
       $scope.loginChat = function (name, password) {
         settingService.loginChat(name, password);
         $rootScope.loginName = name;

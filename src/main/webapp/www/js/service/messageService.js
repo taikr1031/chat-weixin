@@ -1,6 +1,6 @@
 angular.module('chat.messageService', [])
     .factory('messageService', ['$http', '$q', 'localStorageService', 'dateService',
-      function ($http, $q, localStorageService, dateService) {
+      function ($http, $q) {
         return {
           queryMessage: function (chatId) {
             var url = 'http://' + IP + ':' + PORT + '/message/queryMessage/' + chatId;
@@ -17,8 +17,7 @@ angular.module('chat.messageService', [])
             var wxUrl = 'http://' + IP + ':' + PORT + '/wxServlet?type=TEXT&openid=' + openid + '&content=' + msg;
             return $http.get(wxUrl).then(function (res) {
               console.log('TEXT success');
-              //this.saveMessage(openid, msg);
-              var saveUrl = SITE + '/chat/save';
+              var saveUrl = SITE + '/message/save';
               var data = {
                 chatId: chatId,
                 userId: ownId,

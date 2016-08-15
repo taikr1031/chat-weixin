@@ -1,5 +1,5 @@
 angular.module('chat.chatService', [])
-    .factory('chatFactory', function($http, $q) {
+    .factory('queryChatFactory', function($http, $q) {
       return {
         getOwnChatList: function() {
           var url = SITE + '/chat/queryChat.json';
@@ -20,7 +20,6 @@ angular.module('chat.chatService', [])
           init: function (chats) {
             var i = 0;
             var length = 0;
-            //var chatID = new Array();
             var date = null;
             var chatDate = null;
             if (chats) {
@@ -42,24 +41,12 @@ angular.module('chat.chatService', [])
             var promiseChats = chatService.queryChat(); // 同步调用，获得承诺接口
             promiseChats.then(function(data) { // 调用承诺API获取数据 .resolve
               chatData = data.chatList;
-              //$rootScope.chatList = data.chatList;
             }, function(data) { // 处理错误 .reject
               console.log('queryChat error!');
             });
-            console.log('chatFactory...');
+            console.log('queryChatFactory...');
             console.log(chatData);
             return chatData;
-          },
-
-          queryChat: function () {
-            var url = SITE + '/chat/queryChat.json';
-            var deferred = $q.defer(); // 声明延后执行，表示要去监控后面的执行
-            $http({method: 'GET', url: url}).success(function (data, status, headers, config) {
-              deferred.resolve(data);
-            }).error(function (data, status, headers, config) {
-              deferred.reject(data);
-            });
-            return deferred.promise;
           },
 
           getUserId: function () {

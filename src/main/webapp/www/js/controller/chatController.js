@@ -1,5 +1,5 @@
 angular.module('chat.chatController', [])
-    .controller('chatCtrl', function ($rootScope, $scope, $state, $stateParams, $ionicPopup, $timeout, localStorageService, chatService, chatFactory) {
+    .controller('chatCtrl', function ($rootScope, $scope, $state, $stateParams, $ionicPopup, $timeout, localStorageService, chatService, queryChatFactory) {
       $scope.$on("$ionicView.beforeEnter", function () {
         console.log($scope.chats);
         $scope.userModel = {
@@ -9,13 +9,15 @@ angular.module('chat.chatController', [])
           userName: $scope.userModel.userName
         };
 
-        var promiseChats = chatFactory.getOwnChatList(); // 同步调用，获得承诺接口
+        var promiseChats = queryChatFactory.getOwnChatList(); // 同步调用，获得承诺接口
         promiseChats.then(function(data) { // 调用承诺API获取数据 .resolve
           $scope.chats = data.chatList;
           $rootScope.chatList = data.chatList;
+          $rootScope.totalNoReadMsgNum = getTotalNoReadMsgNum(data.chatList);
         }, function(data) { // 处理错误 .reject
           console.log('queryChat error!');
         });
+
         var userId = chatService.getUserId();
         $scope.userModel.userId = userId;
         console.log('beforeEnter userId: ' + $scope.userModel.userId);
@@ -25,6 +27,14 @@ angular.module('chat.chatController', [])
           index: 0
         };
       });
+
+      var getTotalNoReadMsgNum = function(chatList) {
+        var totalNum = 0;
+        for (var chat in chatList) {
+          totalNum += chat.noReadMsgNum;
+        }
+        return totalNum;
+      };
 
       $scope.onSwipeLeft = function () {
         $state.go("tab.friends");
@@ -41,8 +51,6 @@ angular.module('chat.chatController', [])
 
       // 好友列表中好友头像右上方未读信息条数提示
       $scope.markMessage = function () {
-        var userId = chatService.getUserId();
-        alert('markMessage ' + userId);
         var index = $scope.popup.index;
         var chat = $scope.chats[index];
         if (chat.showHints) {

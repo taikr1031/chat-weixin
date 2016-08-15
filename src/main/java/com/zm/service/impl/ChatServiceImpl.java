@@ -16,7 +16,7 @@ import java.util.List;
 public class ChatServiceImpl extends GenericMongoServiceImpl<Chat> implements ChatService {
 
   @Override
-  public List<Chat> queryAllChatByUserId(String userId) {
+  public List<Chat> queryChat(String userId) {
 	Query query = new Query();
 	Criteria c = new Criteria().orOperator(Criteria.where("auserId").is(userId), Criteria.where("buserId").is(userId));
 	query.addCriteria(c);
@@ -39,6 +39,15 @@ public class ChatServiceImpl extends GenericMongoServiceImpl<Chat> implements Ch
 	int num = (int) getMongoTemplate().count(query, Message.class);
 	System.out.println(chatId + "-" + userId + "= " + num);
 	return num;
+  }
+
+  @Override
+  public int getTotalNoReadMsgNum(List<Chat> chats) {
+	int totalNum = 0;
+	for (Chat chat : chats) {
+	  totalNum += chat.getNoReadMsgNum();
+	}
+	return totalNum;
   }
 
   @Override

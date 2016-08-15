@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ChatService extends GenericMongoService<Chat> {
 
-  List<Chat> queryAllChatByUserId(String ownCode);
+  List<Chat> queryChat(String ownCode);
 
   Chat getChatByFriend(String ownId, String friendId);
 
@@ -17,4 +17,6 @@ public interface ChatService extends GenericMongoService<Chat> {
   void save(Message message);
 
   void update(String chatId, String userId);
+
+  int getTotalNoReadMsgNum(List<Chat> chats);
 }
