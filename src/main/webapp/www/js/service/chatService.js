@@ -34,14 +34,7 @@ angular.module('chat.chatService', [])
                     chatDate.day, chatDate.hour, chatDate.minute,
                     chatDate.second);
                 chats[i].timeFrome1970 = date.getTime();
-                //chatID[i] = {
-                //  id: chats[i].id
-                //};
               }
-              //localStorageService.update("chatID", chatID);
-              //for (i = 0; i < length; i++) {
-              //  localStorageService.update("chat_" + chats[i].id, chats[i]);
-              //}
             }
           },
 
