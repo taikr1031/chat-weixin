@@ -1,7 +1,4 @@
 angular.module('chat.chatController', [])
-
-
-
     .controller('chatCtrl', function ($rootScope, $scope, $state, $stateParams, $ionicPopup, $timeout, localStorageService, chatService, chatFactory) {
       $scope.$on("$ionicView.beforeEnter", function () {
         console.log($scope.chats);
