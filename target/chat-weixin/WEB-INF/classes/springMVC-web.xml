@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:websocket="http://www.springframework.org/schema/websocket"
+       xsi:schemaLocation="
+      http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd          
+      http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd          
+      http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd          
+      http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd          
+      http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+      http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+      http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket-4.0.xsd"
+       default-autowire="byName">
+  <!-- @Autowired等注解驱动 -->
+  <context:annotation-config/>
+
+  <mvc:annotation-driven/>
+
+  <bean id="mappingJacksonHttpMessageConverter"
+        class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+  <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+    <property name="messageConverters">
+      <list>
+        <ref bean="mappingJacksonHttpMessageConverter"/>
+      </list>
+    </property>
+  </bean>
+
+  <context:component-scan base-package="com.zm.**"/>
+  <context:component-scan base-package="org.springframework.messaging"/>
+
+  <bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+    <property name="mediaTypes">
+      <value>
+        html=text/html
+        json=application/json
+      </value>
+    </property>
+    <property name="defaultContentType" value="text/html"/>
+  </bean>
+
+  <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+    <property name="order" value="0"/>
+    <property name="contentNegotiationManager" ref="contentNegotiationManager"/>
+    <property name="viewResolvers">
+      <list>
+        <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+          <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+          <property name="prefix" value="/jsp/"/>
+          <property name="suffix" value=".jsp"/>
+        </bean>
+      </list>
+    </property>
+    <property name="defaultViews">
+      <list>
+        <bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" />
+      </list>
+    </property>
+  </bean>
+
+  <!-- 对模型视图名称的解析 -->
+  <!--<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">-->
+    <!--<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>-->
+    <!--<property name="prefix" value="/jsp/"/>-->
+    <!--<property name="suffix" value=".jsp"/>-->
+  <!--</bean>-->
+
+  <mvc:resources location="/static/js/" mapping="/js/**"/>
+  <mvc:resources location="/static/css/" mapping="/css/**"/>
+  <mvc:resources location="/static/img/" mapping="/img/**"/>
+  <mvc:resources location="/static/lib/" mapping="/lib/**"/>
+  <mvc:resources location="/www/" mapping="/www/**"/>
+  <!--<bean id="messagingTemplate" class="org.springframework.messaging.simp.SimpMessagingTemplate"/>-->
+</beans>
+ 
