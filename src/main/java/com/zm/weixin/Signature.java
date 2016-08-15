@@ -6,6 +6,7 @@ import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.WxMpServiceImpl;
 import org.apache.commons.beanutils.BeanUtils;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class Signature {
@@ -22,8 +23,13 @@ public class Signature {
 
 	Map signMap = null;
 	try {
-	  WxJsapiSignature signatureObj = wxService.createJsapiSignature(url);
-	  signMap = BeanUtils.describe(signatureObj);
+//	  WxJsapiSignature signatureObj = wxService.createJsapiSignature(url);
+//	  signMap = BeanUtils.describe(signatureObj);
+
+	  signMap = new HashMap();
+	  signMap.put("timestamp", "123");
+	  signMap.put("noncestr", "123");
+	  signMap.put("signature", "123");
 	} catch (Exception e) {
 	  e.printStackTrace();
 	}

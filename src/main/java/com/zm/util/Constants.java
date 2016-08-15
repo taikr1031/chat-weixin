@@ -3,7 +3,7 @@ package com.zm.util;
 public class Constants {
 
 //  public final static String HOST = "192.168.1.7";
-  public final static String HOST = "10.68.19.114";
+  public final static String HOST = "10.68.61.14";
 
   public final static String PORT = "8080";
 

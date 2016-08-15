@@ -1,27 +1,8 @@
 angular.module('chat.chatController', [])
 
-    //.factory('chatFactory', function(chatService) {
-    //  var chatData = [];
-    //  var runQueryChat  = function() {
-    //    var promiseChats = chatService.queryChat(); // 同步调用，获得承诺接口
-    //    promiseChats.then(function(data) { // 调用承诺API获取数据 .resolve
-    //      chatData = data.chatList;
-    //      //$rootScope.chatList = data.chatList;
-    //    }, function(data) { // 处理错误 .reject
-    //      console.log('queryChat error!');
-    //    });
-    //    console.log('chatFactory...');
-    //    console.log(chatData);
-    //    return chatData;
-    //  };
-    //  return {
-    //    getQueryChat: function() {
-    //      return runQueryChat();
-    //    }
-    //  }
-    //})
 
-    .controller('chatCtrl', function ($rootScope, $scope, $state, $stateParams, $ionicPopup, $timeout, localStorageService, chatService) {
+
+    .controller('chatCtrl', function ($rootScope, $scope, $state, $stateParams, $ionicPopup, $timeout, localStorageService, chatService, chatFactory) {
       $scope.$on("$ionicView.beforeEnter", function () {
         console.log($scope.chats);
         $scope.userModel = {
@@ -30,8 +11,8 @@ angular.module('chat.chatController', [])
         $rootScope.model = {
           userName: $scope.userModel.userName
         };
-        //var chatData = chatFactory.getQueryChat();
-        var promiseChats = chatService.queryChat(); // 同步调用，获得承诺接口
+
+        var promiseChats = chatFactory.getQueryChat(); // 同步调用，获得承诺接口
         promiseChats.then(function(data) { // 调用承诺API获取数据 .resolve
           $scope.chats = data.chatList;
           $rootScope.chatList = data.chatList;

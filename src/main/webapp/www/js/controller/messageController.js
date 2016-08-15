@@ -81,7 +81,7 @@ angular.module('chat.messageController', [])
             $scope.userModel.friendCode = $rootScope.chatList[chatIndex].buserCode;
           }
           //messageService.updateChat($scope.chat);
-          $scope.messageNum = 10;
+          $scope.messageNum = 8;
           //$scope.messages = messageService.getAmountMessageById($scope.messageNum, $stateParams.chatId);
           $timeout(function () {
             viewScroll.scrollBottom();

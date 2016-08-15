@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <%@ page import="com.zm.weixin.*" %>
+<%@ page import="java.util.Map" %>
 <%
   String appid = "wx791d897f45713b38";
   String secret = "ec1be18ba7c332f5ff260c08f3c93e2d";
   String token = "12345678901234567890123456789012";
-  String url = "http://10.68.19.114:8080/www/index.jsp";
+  String url = "http://10.68.61.14:8080/www/index.jsp";
   Map signMap = Signature.getSign(appid, secret, token, url);
 %>
 <script type="text/javascript">

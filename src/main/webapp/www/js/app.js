@@ -1,4 +1,4 @@
-var IP = '10.68.19.114';
+var IP = '10.68.61.14';
 var PORT = '8080';
 var SITE = 'http://' + IP + ':' + PORT;
 
@@ -7,10 +7,6 @@ angular.module('chat', ['ionic', 'chat.controllers', 'chat.chatController',
       'chat.services', 'chat.dateService', 'chat.messageService', 'chat.settingService', 'chat.chatService',
       'chat.directives', 'monospaced.elastic'
     ])
-
-    //.config(['$ionicConfigProvider', function ($rootScope, $ionicConfigProvider) {
-      //$ionicConfigProvider.tabs.position('bottom'); // other values: top
-    //}])
 
     .run(function ($ionicPlatform, $http, messageService, dateService) {
       var url = 'http://' + IP + ':' + PORT + '/chat/queryChat.json';

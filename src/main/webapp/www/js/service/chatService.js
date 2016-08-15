@@ -1,4 +1,19 @@
 angular.module('chat.chatService', [])
+    .factory('chatFactory', function($http, $q) {
+      return {
+        getQueryChat: function() {
+          var url = SITE + '/chat/queryChat.json';
+          var deferred = $q.defer(); // 声明延后执行，表示要去监控后面的执行
+          $http.get(url).success(function (data, status, headers, config) {
+            deferred.resolve(data);
+          }).error(function (data, status, headers, config) {
+            deferred.reject(data);
+          });
+          return deferred.promise;
+        }
+      }
+    })
+
     .factory('chatService', ['$http', '$q', 'localStorageService', 'dateService',
       function ($http, $q, localStorageService, dateService) {
         return {
@@ -28,6 +43,19 @@ angular.module('chat.chatService', [])
               //  localStorageService.update("chat_" + chats[i].id, chats[i]);
               //}
             }
+          },
+
+          getQueryChat: function() {
+            var promiseChats = chatService.queryChat(); // 同步调用，获得承诺接口
+            promiseChats.then(function(data) { // 调用承诺API获取数据 .resolve
+              chatData = data.chatList;
+              //$rootScope.chatList = data.chatList;
+            }, function(data) { // 处理错误 .reject
+              console.log('queryChat error!');
+            });
+            console.log('chatFactory...');
+            console.log(chatData);
+            return chatData;
           },
 
           queryChat: function () {
