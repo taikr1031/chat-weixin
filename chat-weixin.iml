@@ -16,7 +16,7 @@
       </configuration>
     </facet>
   </component>
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_7" inherit-compiler-output="false">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_5" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
     <content url="file://$MODULE_DIR$">
@@ -74,5 +74,13 @@
     <orderEntry type="library" name="Maven: org.springframework.data:spring-data-commons:1.12.1.RELEASE" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.slf4j:jcl-over-slf4j:1.7.19" level="project" />
     <orderEntry type="library" name="Maven: org.mongodb:mongo-java-driver:2.14.2" level="project" />
+    <orderEntry type="library" name="Maven: com.corundumstudio.socketio:netty-socketio:1.7.8" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-buffer:4.0.32.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-common:4.0.32.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-transport:4.0.32.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-handler:4.0.32.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-codec-http:4.0.32.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-codec:4.0.32.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-transport-native-epoll:4.0.32.Final" level="project" />
   </component>
 </module>

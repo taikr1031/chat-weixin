@@ -179,6 +179,16 @@
       <artifactId>mongo-java-driver</artifactId>
       <version>2.14.2</version>
     </dependency>
+    <dependency>
+      <groupId>com.corundumstudio.socketio</groupId>
+      <artifactId>netty-socketio</artifactId>
+      <version>1.7.8</version>
+    </dependency>
+    <!--<dependency>-->
+      <!--<groupId>org.apache.tomcat.embed</groupId>-->
+      <!--<artifactId>tomcat-embed-websocket</artifactId>-->
+      <!--<version>7.0.69</version>-->
+    <!--</dependency>-->
     <!--<dependency>-->
     <!--<groupId>junit</groupId>-->
     <!--<artifactId>junit</artifactId>-->

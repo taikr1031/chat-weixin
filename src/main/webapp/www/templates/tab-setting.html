@@ -12,7 +12,12 @@
   <ion-content on-swipe-right="onSwipeRight()">
     <ion-list rj-close-back-drop>
       <ion-item class="item-avatar" ng-repeat="friend in friends.$$state.value.userList">
-        <h2 ng-bind="friend.name" ng-click="loginChat(friend.name, friend.password)"></h2>
+        <a class="item item-thumbnail-left" href="#" ng-click="loginChat(friend.name, friend.password)">
+          <img src="{{friend.picture.thumbnail}}" width="15" height="30">
+          <h2>{{friend.name}}</h2>
+          <p>{{friend.gender}}</p>
+        </a>
+        <!--<h2 ng-bind="friend.name" ng-click="loginChat(friend.name, friend.password)"></h2>-->
       </ion-item>
     </ion-list>
   </ion-content>
