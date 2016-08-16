@@ -1,6 +1,5 @@
 angular.module('chat.messageService', [])
-    .factory('messageService', ['$http', '$q', 'localStorageService', 'dateService',
-      function ($http, $q) {
+    .factory('messageService', function ($http, $q) {
         return {
           queryMessage: function (chatId) {
             var url = 'http://' + IP + ':' + PORT + '/message/queryMessage/' + chatId;
@@ -59,4 +58,4 @@ angular.module('chat.messageService', [])
           }
         };
       }
-    ]);
+    );

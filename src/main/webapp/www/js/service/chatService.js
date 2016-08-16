@@ -14,8 +14,7 @@ angular.module('chat.chatService', [])
       }
     })
 
-    .factory('chatService', ['$http', '$q', 'localStorageService', 'dateService',
-      function ($http, $q, localStorageService, dateService) {
+    .factory('chatService', function ($http, $q, localStorageService, dateService) {
         return {
           init: function (chats) {
             var i = 0;
@@ -60,6 +59,8 @@ angular.module('chat.chatService', [])
               success: function (data) {
                 if(data.stringList != null) {
                   userId = data.stringList[0];
+                  //$scope.userModel.userId = userId;
+                  //console.log('beforeEnter userId: ' + $scope.userModel.userId);
                 }
               }
             });
@@ -98,4 +99,4 @@ angular.module('chat.chatService', [])
           }
         };
       }
-    ]);
+    );

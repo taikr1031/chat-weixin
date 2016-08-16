@@ -1,6 +1,5 @@
 angular.module('chat.settingService', [])
-    .factory('settingService',  ['$http', '$q', 'localStorageService', 'dateService',
-      function ($http, $q, localStorageService, dateService) {
+    .factory('settingService', function ($http) {
         return {
           getAllUser: function () {
             var url = SITE + '/user/getAllUser.json';
@@ -27,4 +26,4 @@ angular.module('chat.settingService', [])
           }
         };
       }
-    ]);
+    );

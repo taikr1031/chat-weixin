@@ -1,5 +1,5 @@
 angular.module('chat.dateService', [])
-    .factory('dateService', ['$filter', function ($filter) {
+    .factory('dateService', function ($filter) {
       return {
         handleChatDate: function (chats) {
           var i = 0,
@@ -90,4 +90,4 @@ angular.module('chat.dateService', [])
           }
         }
       };
-    }]);
+    });
