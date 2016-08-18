@@ -8,10 +8,11 @@ angular.module('chat.settingService', [])
             });
           },
 
-          getUserById: function (userId) {
+          getUserById: function (chatIndex, userId, fn) {
             var url = SITE + '/user/getUserById/' + userId;
             return $http.get(url).then(function(res) {
-              return res.data;
+              fn(chatIndex, res.data.user);
+              //return res.data;
             });
           },
 

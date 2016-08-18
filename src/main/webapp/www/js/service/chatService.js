@@ -48,25 +48,6 @@ angular.module('chat.chatService', [])
             return chatData;
           },
 
-          //getUserId: function () {
-          //  var url = SITE + '/user/getUserId.json';
-          //  var userId;
-          //  $.ajax({
-          //    async: false,
-          //    type: 'GET',
-          //    url: url,
-          //    dataType: 'json',
-          //    success: function (data) {
-          //      if(data.stringList != null) {
-          //        userId = data.stringList[0];
-          //        //$scope.model.userId = userId;
-          //        //console.log('beforeEnter userId: ' + $scope.model.userId);
-          //      }
-          //    }
-          //  });
-          //  return userId;
-          //},
-
           updateChat: function (chatId, friendId) {
             var url = SITE + '/chat/update/' + chatId + '/' + friendId + '.json';
             $http.get(url).then(function (res) {
