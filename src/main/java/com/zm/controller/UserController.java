@@ -5,6 +5,7 @@ import com.zm.service.UserService;
 import com.zm.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +22,11 @@ public class UserController {
   @RequestMapping("/getAllUser")
   public List<User> getAllUser() {
 	return userService.getAllObjects();
+  }
+
+  @RequestMapping("/getUserById/{userId}")
+  public User getUserById(@PathVariable String userId) {
+	return userService.getObject(userId);
   }
 
   @RequestMapping("/getAllUserWithoutOwn")

@@ -1,3 +1,10 @@
+<style type="text/css">
+  .my-item {
+    left: 0;
+    right: 0;
+  }
+</style>
+
 <ion-header-bar align-title="left" class="bar-dark">
   <div class="h1 title">微信(16)</div>
   <div class="buttons">
@@ -9,16 +16,35 @@
 </ion-header-bar>
 
 <ion-view>
-  <ion-content on-swipe-right="onSwipeRight()">
-    <ion-list rj-close-back-drop>
-      <ion-item class="item-avatar" ng-repeat="friend in friends.$$state.value.userList">
-        <a class="item item-thumbnail-left" href="#" ng-click="loginChat(friend.name, friend.password)">
-          <img src="{{friend.picture.thumbnail}}" width="15" height="30">
-          <h2>{{friend.name}}</h2>
-          <p>{{friend.gender}}</p>
-        </a>
-        <!--<h2 ng-bind="friend.name" ng-click="loginChat(friend.name, friend.password)"></h2>-->
-      </ion-item>
-    </ion-list>
+  <ion-content>
+    <!--<ion-list can-swipe="listCanSwipe">-->
+      <!--<ion-item ng-repeat="friend in friends.$$state.value.userList" class="item-thumbnail-left">-->
+        <!--<img ng-src="{{friend.picture.thumbnail}}">-->
+        <!--<h2>{{friend.name}}</h2>-->
+        <!--<p>{{friend.gender}}</p>-->
+      <!--</ion-item>-->
+    <!--</ion-list>-->
+
+
+    <div class="list item-avatar">
+      <div class="item item-avatar my-image-item"
+           collection-repeat="friend in friends.$$state.value.userList"
+           collection-item-width="'33%'"
+           collection-item-height="'33%'" ng-click="loginChat(friend.name, friend.password)">
+        <img src="{{friend.picture.thumbnail}}" width="50px" height="50px">
+        <h2>{{friend.name}}</h2>
+        <p>{{friend.gender}}</p>
+      </div>
+    </div>
+
+    <!--<ion-list rj-close-back-drop>-->
+      <!--<ion-item class="item-avatar" ng-repeat="friend in friends.$$state.value.userList">-->
+        <!--<a class="item item-thumbnail-left" href="#" ng-click="loginChat(friend.name, friend.password)">-->
+          <!--<img src="{{friend.picture.thumbnail}}" width="15" height="30">-->
+          <!--<h2>{{friend.name}}</h2>-->
+          <!--<p>{{friend.gender}}</p>-->
+        <!--</a>-->
+      <!--</ion-item>-->
+    <!--</ion-list>-->
   </ion-content>
 </ion-view>

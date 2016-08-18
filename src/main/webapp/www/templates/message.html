@@ -4,7 +4,7 @@
     </button>
   </div>
   <div class="h1 title" ng-bind="loginName"></div>
-  <div class="h1 title" ng-bind="userModel.chatId"></div>
+  <div class="h1 title" ng-bind="model.chatId"></div>
   <div class="buttons">
     <button class="button button-icon icon ion-person"></button>
   </div>
@@ -14,12 +14,12 @@
   <ion-refresher pulling-text="..." on-refresh="doRefresh()" pulling-icon=""></ion-refresher>
   <div ng-repeat="item in messages">
     <p class="rj-message-time" ng-bind="item.time" ng-if="false"></p>
-    <div class="rj-message-wrap" ng-if="item.userId != userModel.ownId">
+    <div class="rj-message-wrap" ng-if="item.userId != model.ownId">
       <img ng-src="{{item.pic}}" class="rj-head-pic">
       <span class="rj-triangle-left"></span>
       <p class="rj-message" ng-bind="item.content"></p>
     </div>
-    <div class="rj-message-wrap" ng-if="item.userId == userModel.ownId">
+    <div class="rj-message-wrap" ng-if="item.userId == model.ownId">
       <img ng-src="{{item.pic}}" class="rj-head-pic-right">
       <span class="rj-triangle-right"></span>
       <p class="rj-message-right" ng-bind="item.content" ng-if="item.type == 'TEXT'"></p>

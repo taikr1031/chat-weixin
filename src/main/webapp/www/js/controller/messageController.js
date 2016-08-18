@@ -13,22 +13,17 @@ angular.module('chat.messageController', [])
       }
     })
 
-    .controller('messageCtrl', ['$rootScope', '$scope', '$stateParams',
-      '$ionicScrollDelegate', '$ionicActionSheet', '$timeout', '$ionicLoading','$ionicHistory', '$state', 'messageService',
-      function ($rootScope, $scope, $stateParams, $ionicScrollDelegate, $ionicActionSheet, $timeout, $ionicLoading,$ionicHistory, $state, messageService) {
+    .controller('messageCtrl',
+      function ($rootScope, $scope, $stateParams, $ionicScrollDelegate, $ionicActionSheet, $timeout, $ionicLoading,$ionicHistory, $state, messageService, settingService) {
         var viewScroll = $ionicScrollDelegate.$getByHandle('messageDetailsScroll');
         var beginDate;
         // 聊天界面中录音按钮开启（down）和停止（up）事件绑定
         $('#voiceBtn').bind('touchstart', function () {
-          console.log('touchstart');
-          console.log('touchstart');
           beginDate = new Date();
           wxjs.run(function () {
-            console.log('startRecord');
             wx.startRecord();
           });
         }).bind('touchend', function () {
-          console.log('touchend');
           var endDate = new Date();
           wxjs.run(function () {
             wx.stopRecord({
@@ -48,15 +43,15 @@ angular.module('chat.messageController', [])
           var chatIndex = parseInt($stateParams.chatIndex);
           var userIds = $stateParams.chatId.split('-');
           var friendId = (userIds[0] == $stateParams.ownId) ? userIds[1] : userIds[0];
-          //console.log($scope.userModel.userName + '-=' + $scope.userModel.userId);
-          console.log('---------------');
-          $scope.userModel = {
+          console.log($scope.model.userName + '-=' + $scope.model.userId);
+          $scope.model = {
             chatId: $stateParams.chatId,
             ownId: $stateParams.ownId,
             ownName: $stateParams.ownName,
             friendId: friendId
           };
-          $scope.userModel.userName = $stateParams.ownName;
+          $scope.model.userName = $stateParams.ownName;
+          $scope.friend = settingService.getUserById(friendId);
           var promiseChat = messageService.queryMessage($stateParams.chatId); // 同步调用，获得承诺接口
           promiseChat.then(function(data) { // 调用承诺API获取数据 .resolve
             $scope.messages = data.messageList;
@@ -74,11 +69,11 @@ angular.module('chat.messageController', [])
           }
           // 设置聊天对象的openid
           if($rootScope.chatList[chatIndex].auserId == friendId) {
-            $scope.userModel.ownPic = $rootScope.chatList[chatIndex].buserPic;
-            $scope.userModel.friendCode = $rootScope.chatList[chatIndex].auserCode;
+            $scope.model.ownPic = $rootScope.chatList[chatIndex].buserPic;
+            $scope.model.friendCode = $rootScope.chatList[chatIndex].auserCode;
           } else {
-            $scope.userModel.ownPic = $rootScope.chatList[chatIndex].auserPic;
-            $scope.userModel.friendCode = $rootScope.chatList[chatIndex].buserCode;
+            $scope.model.ownPic = $rootScope.chatList[chatIndex].auserPic;
+            $scope.model.friendCode = $rootScope.chatList[chatIndex].buserCode;
           }
           //messageService.updateChat($scope.chat);
           $scope.messageNum = 8;
@@ -125,8 +120,8 @@ angular.module('chat.messageController', [])
           };
           ws.onmessage = function (event) {
             log('Received: ' + event.data);
-            var ownId = ($scope.userModel.chatId.split('-')[0] == $scope.userModel.ownId) ? $scope.userModel.chatId.split('-')[1] : $scope.userModel.chatId.split('-')[0];
-            var data = generateMessage(event.data, ownId, $scope.userModel.ownPic, 'TEXT');
+            var ownId = ($scope.model.chatId.split('-')[0] == $scope.model.ownId) ? $scope.model.chatId.split('-')[1] : $scope.model.chatId.split('-')[0];
+            var data = generateMessage(event.data, ownId, $scope.model.ownPic, 'TEXT');
             $scope.messages.push(data);
             $timeout(function () {
               viewScroll.scrollBottom();
@@ -148,9 +143,9 @@ angular.module('chat.messageController', [])
         };
 
         // 用户发送微信消息后，同时通过websocket发给服务器，服务器通过websocket给收信人推送一条消息，收信人的ws.onmessage事件回调函数将该消息自动显示在聊天界面最下方，
-        var sendMessage = function (message) {
+        var sendSocketMessage = function (message) {
           if (ws != null) {
-            log('sendMessage: ' + message);
+            log('sendSocketMessage: ' + message);
             ws.send(message);
           } else {
             alert('connection not established, please connect.');
@@ -280,10 +275,10 @@ angular.module('chat.messageController', [])
         };
 
         var sendImages = function (serverId, downloadId) {
-          messageService.sendImage($scope.message.openid, serverId);
+          messageService.sendImage($scope.model.friendCode, serverId);
           var data = {};
           data.content = downloadId;
-          data.fromeMe = true;
+          data.userId = $scope.model.ownId;
           data.time = new Date();
           data.type = 'IMAGE';
           data.mediaId = serverId;
@@ -318,12 +313,12 @@ angular.module('chat.messageController', [])
         sendVoice = function (mediaId, intervalNum) {
           var data = {};
           data.content = ' ' + intervalNum + '秒';
-          data.fromeMe = true;
+          data.userId = $scope.model.ownId;
           data.time = new Date();
           data.type = 'VOICE';
           data.mediaId = mediaId;
           $scope.messages.push(data);
-          messageService.sendVoice($scope.message.openid, mediaId);
+          messageService.sendVoice($scope.model.friendCode, mediaId);
           $scope.msg = '';
           viewScroll.scrollBottom();
         };
@@ -331,8 +326,8 @@ angular.module('chat.messageController', [])
 
         var generateMessage = function (msg, ownId, ownPic, type) {
           var data = {};
-          if (msg.indexOf('___') != -1) {
-            data.content = msg.split('___')[0];
+          if (msg.indexOf(MESSAGE_SPACE) != -1) {
+            data.content = msg.split(MESSAGE_SPACE)[0];
           } else {
             data.content = msg;
           }
@@ -346,10 +341,10 @@ angular.module('chat.messageController', [])
 
         /* TEXT */
         $scope.sendText = function () {
-          sendMessage($scope.msg + '___' + $scope.userModel.friendId);
-          var data = generateMessage($scope.msg, $scope.userModel.ownId, $scope.userModel.ownPic, 'TEXT');
+          sendSocketMessage($scope.msg + MESSAGE_SPACE + $scope.model.friendId);
+          var data = generateMessage($scope.msg, $scope.model.ownId, $scope.model.ownPic, 'TEXT');
           $scope.messages.push(data);
-          messageService.sendText($scope.userModel.chatId, $scope.userModel.ownId, $scope.userModel.friendCode, $scope.userModel.ownPic, $scope.msg, 'TEXT');
+          messageService.sendText($scope.model.chatId, $scope.model.ownId, $scope.model.friendCode, $scope.model.ownPic, $scope.msg, 'TEXT');
           $scope.msg = '';
           viewScroll.scrollBottom();
         };
@@ -396,4 +391,4 @@ angular.module('chat.messageController', [])
           viewScroll.scrollBottom();
         });
       }
-    ])
+    )

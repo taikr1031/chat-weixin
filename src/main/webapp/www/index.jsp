@@ -6,6 +6,7 @@
   <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
   <title></title>
   <link href="css/ionic.app.css" rel="stylesheet">
+  <link href="css/custom.style.css" rel="stylesheet">
   <script src="lib/ionic/js/jquery/jquery.min.js"></script>
   <!-- ionic/angularjs js -->
   <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>

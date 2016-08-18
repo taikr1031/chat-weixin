@@ -1,14 +1,12 @@
 angular.module('chat.chatController', [])
     .controller('chatCtrl', function ($rootScope, $scope, $state, $stateParams, $ionicPopup, $timeout, localStorageService, chatService, queryChatFactory) {
       $scope.$on("$ionicView.beforeEnter", function () {
-        console.log($scope.chats);
-        $scope.userModel = {
+        $scope.model = {
           userName: $stateParams.userName
         };
         $rootScope.model = {
-          userName: $scope.userModel.userName
+          userName: $scope.model.userName
         };
-
         var promiseChats = queryChatFactory.getOwnChatList(); // 同步调用，获得承诺接口
         promiseChats.then(function(data) { // 调用承诺API获取数据 .resolve
           $scope.chats = data.chatList;
@@ -19,8 +17,8 @@ angular.module('chat.chatController', [])
         });
 
         var userId = chatService.getUserId();
-        $scope.userModel.userId = userId;
-        console.log('beforeEnter userId: ' + $scope.userModel.userId);
+        $scope.model.userId = userId;
+        console.log('beforeEnter userId: ' + $scope.model.userId);
 
         $scope.popup = {
           isPopup: false,
@@ -92,6 +90,7 @@ angular.module('chat.chatController', [])
 
       $scope.toMessage = function (chatId, ownId, ownName, index) {
         var friendId = chatId.split('-')[0] == ownId ? chatId.split('-')[1] : chatId.split('-')[0];
+        // 清除右上角未读信息条数标识
         chatService.updateChat(chatId, friendId);
         $state.go("message", {
           "chatId": chatId,

@@ -1,6 +1,7 @@
 var IP = '10.68.19.114';
 var PORT = '8080';
 var SITE = 'http://' + IP + ':' + PORT;
+var MESSAGE_SPACE = '___';
 
 angular.module('chat', ['ionic', 'chat.controllers', 'chat.chatController',
       'chat.messageController', 'chat.settingController', 'chat.routes',

@@ -59,8 +59,8 @@ angular.module('chat.chatService', [])
               success: function (data) {
                 if(data.stringList != null) {
                   userId = data.stringList[0];
-                  //$scope.userModel.userId = userId;
-                  //console.log('beforeEnter userId: ' + $scope.userModel.userId);
+                  //$scope.model.userId = userId;
+                  //console.log('beforeEnter userId: ' + $scope.model.userId);
                 }
               }
             });

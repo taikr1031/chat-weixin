@@ -12,5 +12,10 @@ angular.module('chat.settingController', [])
         settingService.loginChat(name, password);
         $rootScope.loginName = name;
         $state.go('tab.chat', {"userName": name});
-      }
+      };
+
+      $scope.getItemHeight = function(item, index) {
+        //使索引项平均都有10px高，例如
+        return (index % 2) === 0 ? 50 : 50;
+      };
     });

@@ -3,8 +3,15 @@ angular.module('chat.settingService', [])
         return {
           getAllUser: function () {
             var url = SITE + '/user/getAllUser.json';
-            return $http.get(url).then(function (response) {
-              return response.data;
+            return $http.get(url).then(function (res) {
+              return res.data;
+            });
+          },
+
+          getUserById: function (userId) {
+            var url = SITE + '/getUserById/' + userId;
+            return $http.get(url).then(function(res) {
+              return res.data;
             });
           },
 
