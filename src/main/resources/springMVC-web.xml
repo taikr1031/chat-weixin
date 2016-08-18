@@ -69,6 +69,7 @@
     <!--<property name="suffix" value=".jsp"/>-->
   <!--</bean>-->
 
+  <mvc:resources location="/" mapping="/html/**"/>
   <mvc:resources location="/static/js/" mapping="/js/**"/>
   <mvc:resources location="/static/css/" mapping="/css/**"/>
   <mvc:resources location="/static/img/" mapping="/img/**"/>

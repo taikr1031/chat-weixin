@@ -7,7 +7,7 @@
   <title></title>
   <link href="css/ionic.app.css" rel="stylesheet">
   <link href="css/custom.style.css" rel="stylesheet">
-  <script src="lib/ionic/js/jquery/jquery.min.js"></script>
+  <script src="/www/lib/ionic/js/jquery/jquery.min.js"></script>
   <!-- ionic/angularjs js -->
   <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
   <script src="/www/lib/ionic/js/ionic.bundle.js"></script>

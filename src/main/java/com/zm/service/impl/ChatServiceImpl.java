@@ -42,15 +42,6 @@ public class ChatServiceImpl extends GenericMongoServiceImpl<Chat> implements Ch
   }
 
   @Override
-  public int getTotalNoReadMsgNum(List<Chat> chats) {
-	int totalNum = 0;
-	for (Chat chat : chats) {
-	  totalNum += chat.getNoReadMsgNum();
-	}
-	return totalNum;
-  }
-
-  @Override
   public Chat getChatByFriend(String ownId, String friendId) {
 	return null;
   }

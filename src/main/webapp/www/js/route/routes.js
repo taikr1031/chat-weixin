@@ -9,7 +9,7 @@ angular.module('chat.routes', [])
             templateUrl: "templates/tabs.html",
           })
           .state('tab.chat', {
-            url: '/chat',
+            url: '/chat?ownId&ownName',
             views: {
               'tab-chat': {
                 templateUrl: 'templates/tab-chat.html',

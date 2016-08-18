@@ -33,7 +33,6 @@ public class ChatController {
 		return new ArrayList<Chat>();
 	  }
 	  chats = chatService.queryChat(user.getId());
-	  model.addAttribute("totalNoReadMsgNum", chatService.getTotalNoReadMsgNum(chats));
 	} catch (Exception e) {
 	  e.printStackTrace();
 	}

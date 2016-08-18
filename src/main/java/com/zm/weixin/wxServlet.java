@@ -67,7 +67,7 @@ public class wxServlet extends HttpServlet {
 	  message = WxMpCustomMessage.VOICE().toUser(openid).mediaId(content).build();
 	}
 	try {
-	  wxService.customMessageSend(message);
+//	  wxService.customMessageSend(message);
 	} catch (Exception e) {
 	  e.printStackTrace();
 	}

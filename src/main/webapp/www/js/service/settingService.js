@@ -9,18 +9,19 @@ angular.module('chat.settingService', [])
           },
 
           getUserById: function (userId) {
-            var url = SITE + '/getUserById/' + userId;
+            var url = SITE + '/user/getUserById/' + userId;
             return $http.get(url).then(function(res) {
               return res.data;
             });
           },
 
-          loginChat: function (name, password) {
+          loginChat: function (name, password, fn) {
             var url = SITE + '/login/login/' + name + '/' + password;
-            $http.get(url).then(function (response) {
-              console.log(response.data.user.name + '-=' + response.data.user.code + ' loginChat success!');
+            $http.get(url).then(function (res) {
+              fn(res.data.user);
             });
           },
+
           isLoginSession: function (ownOpenId) {
             var url = SITE + '/login/isLoginSession/' + ownOpenId;
             console.log('setFriendSessionInfo: ' + url);

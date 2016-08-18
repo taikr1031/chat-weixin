@@ -6,8 +6,8 @@ import com.corundumstudio.socketio.SocketIOServer;
 public class App {
   public static void main(String[] args) throws InterruptedException {
 	Configuration config = new Configuration();
-	config.setHostname("localhost");
-	config.setPort(9092);
+	config.setHostname("10.68.19.114");
+	config.setPort(8088);
 
 	SocketIOServer server = new SocketIOServer(config);
 	CharteventListener listner = new CharteventListener();

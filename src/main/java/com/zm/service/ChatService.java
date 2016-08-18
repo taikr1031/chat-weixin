@@ -17,6 +17,4 @@ public interface ChatService extends GenericMongoService<Chat> {
   void save(Message message);
 
   void update(String chatId, String userId);
-
-  int getTotalNoReadMsgNum(List<Chat> chats);
 }

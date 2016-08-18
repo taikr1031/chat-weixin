@@ -1,20 +1,19 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <title>Socketio chat</title>
   <script type="text/javascript" src="/www/lib/ionic/js/jquery/jquery.min.js"></script>
-  <script type="text/javascript" src="/www/lib/ionic/js/socket/socket.io.js"></script>
+  <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
   <style>
     body {
       padding: 20px;
     }
-
     #console {
       height: 400px;
       overflow: auto;
     }
-
     .username-msg {
       color: orange;
     }
@@ -22,11 +21,9 @@
     .connect-msg {
       color: green;
     }
-
     .disconnect-msg {
       color: red;
     }
-
     .send-msg {
       color: #888
     }
@@ -45,7 +42,7 @@
 </form>
 </body>
 <script type="text/javascript">
-  var socket = io.connect('http://10.68.19.114:8080');
+  var socket = io.connect('http://10.68.19.114:8088');
   socket.on('connect', function () {
     output('<span class="connect-msg">Client has connected to the server!</span>');
   });

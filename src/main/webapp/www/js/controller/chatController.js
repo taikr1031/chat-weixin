@@ -2,24 +2,20 @@ angular.module('chat.chatController', [])
     .controller('chatCtrl', function ($rootScope, $scope, $state, $stateParams, $ionicPopup, $timeout, localStorageService, chatService, queryChatFactory) {
       $scope.$on("$ionicView.beforeEnter", function () {
         $scope.model = {
-          userName: $stateParams.userName
+          ownName: $stateParams.ownName,
+          ownId: $stateParams.ownId
         };
         $rootScope.model = {
-          userName: $scope.model.userName
+          ownName: $stateParams.ownName
         };
         var promiseChats = queryChatFactory.getOwnChatList(); // 同步调用，获得承诺接口
         promiseChats.then(function(data) { // 调用承诺API获取数据 .resolve
           $scope.chats = data.chatList;
           $rootScope.chatList = data.chatList;
-          $rootScope.totalNoReadMsgNum = getTotalNoReadMsgNum(data.chatList);
+          $scope.totalNoReadMsgNum = getTotalNoReadMsgNum(data.chatList);
         }, function(data) { // 处理错误 .reject
           console.log('queryChat error!');
         });
-
-        var userId = chatService.getUserId();
-        $scope.model.userId = userId;
-        console.log('beforeEnter userId: ' + $scope.model.userId);
-
         $scope.popup = {
           isPopup: false,
           index: 0
@@ -28,8 +24,10 @@ angular.module('chat.chatController', [])
 
       var getTotalNoReadMsgNum = function(chatList) {
         var totalNum = 0;
-        for (var chat in chatList) {
-          totalNum += chat.noReadMsgNum;
+        for (var i = 0; i < chatList.length; i++) {
+          if(!isNaN(chatList[i].noReadMsgNum)) {
+            totalNum += chatList[i].noReadMsgNum;
+          }
         }
         return totalNum;
       };

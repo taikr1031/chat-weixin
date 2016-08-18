@@ -43,14 +43,14 @@ angular.module('chat.messageController', [])
           var chatIndex = parseInt($stateParams.chatIndex);
           var userIds = $stateParams.chatId.split('-');
           var friendId = (userIds[0] == $stateParams.ownId) ? userIds[1] : userIds[0];
-          console.log($scope.model.userName + '-=' + $scope.model.userId);
+          //console.log($scope.model.userName + '-=' + $scope.model.userId);
           $scope.model = {
             chatId: $stateParams.chatId,
             ownId: $stateParams.ownId,
             ownName: $stateParams.ownName,
             friendId: friendId
           };
-          $scope.model.userName = $stateParams.ownName;
+          //$scope.model.userName = $stateParams.ownName;
           $scope.friend = settingService.getUserById(friendId);
           var promiseChat = messageService.queryMessage($stateParams.chatId); // 同步调用，获得承诺接口
           promiseChat.then(function(data) { // 调用承诺API获取数据 .resolve
@@ -391,4 +391,4 @@ angular.module('chat.messageController', [])
           viewScroll.scrollBottom();
         });
       }
-    )
+    );
