@@ -21,22 +21,13 @@ angular.module('chat.messageService', [])
                 chatId: chatId,
                 userId: ownId,
                 pic: ownPic,
-                msg: msg,
+                content: msg,
                 type: type
               };
               $http({
                 method: 'POST',
                 url: saveUrl,
-                data: data,
-                headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=GBK'},
-                transformRequest: function (obj) {
-                  var str = [];
-                  for (var p in obj) {
-                    //str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-                    str.push(p + "=" + obj[p]);
-                  }
-                  return str.join("&");
-                }
+                data: data
               }).then(function (res) {
                 console.log(res.data);
               })

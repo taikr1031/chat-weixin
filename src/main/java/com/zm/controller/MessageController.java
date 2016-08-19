@@ -26,28 +26,12 @@ public class MessageController {
   }
 
   @RequestMapping("/save")
-  public void save(@RequestBody String msg, HttpServletRequest request) {
-    String[] params = msg.split("&");
+  public void save(@RequestBody Message message, HttpServletRequest request) {
     try {
-      Message message = generateMessage(params[0].split("=")[1], params[1].split("=")[1], params[2].split("=")[1], params[3].split("=")[1], params[4].split("=")[1]);
       this.messageService.save(message);
-    } catch (UnsupportedEncodingException e) {
+    } catch (Exception e) {
       e.printStackTrace();
     }
-  }
-
-  private Message generateMessage(String chatId, String ownId, String pic, String msg, String type) throws UnsupportedEncodingException {
-    String fristDecodeChatset = "ISO8859-1";
-    String secondDecodeChatset = "GBK";
-    Message message = new Message();
-    message.setChatId(chatId);
-    message.setUserId(new String(ownId.getBytes(fristDecodeChatset), secondDecodeChatset));
-    message.setPic(new String(pic.getBytes(fristDecodeChatset), secondDecodeChatset));
-    message.setContent(new String(msg.getBytes(fristDecodeChatset), secondDecodeChatset));
-    message.setType(new String(type.getBytes(fristDecodeChatset), secondDecodeChatset));
-    message.setRead(false);
-    message.setTime(new Timestamp(System.currentTimeMillis()));
-    return message;
   }
 
 }

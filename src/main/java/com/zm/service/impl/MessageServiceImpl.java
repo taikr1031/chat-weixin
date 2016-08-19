@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @Service("messageService")
@@ -24,6 +25,8 @@ public class MessageServiceImpl extends GenericMongoServiceImpl<Message> impleme
 
   @Override
   public void save(Message message) {
+	message.setRead(false);
+	message.setTime(new Timestamp(System.currentTimeMillis()));
 	this.getMongoTemplate().save(message);
   }
 

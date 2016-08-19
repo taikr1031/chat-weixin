@@ -1,18 +1,5 @@
 angular.module('chat.messageController', [])
 
-    .config(function ($httpProvider) {
-      $httpProvider.defaults.transformRequest = function (obj) {
-        var str = [];
-        for (var p in obj) {
-          str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-        }
-        return str.join("&");
-      };
-      $httpProvider.defaults.headers.post = {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      }
-    })
-
     .controller('messageCtrl',
       function ($rootScope, $scope, $stateParams, $ionicScrollDelegate, $ionicActionSheet, $timeout, $ionicLoading,$ionicHistory, $state, messageService, settingService) {
         var viewScroll = $ionicScrollDelegate.$getByHandle('messageDetailsScroll');
