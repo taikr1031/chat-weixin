@@ -28,7 +28,7 @@ angular.module('chat.messageService', [])
                 method: 'POST',
                 url: saveUrl,
                 data: data,
-                headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
+                headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=GBK'},
                 transformRequest: function (obj) {
                   var str = [];
                   for (var p in obj) {

@@ -30,7 +30,7 @@ angular.module('chat.messageController', [])
               success: function (res) {
                 var localId = res.localId;
                 $scope.localId = localId;
-                $scope.msg = localId;
+                $scope.model.msg = localId;
                 var intervalNum = Math.round((endDate.getTime() - beginDate.getTime()) / 1000);
                 sendVoice(localId, intervalNum);
               }
@@ -41,7 +41,7 @@ angular.module('chat.messageController', [])
         // 页面载入事件
         $scope.$on("$ionicView.beforeEnter", function () {
           $scope.isInputText = true;
-          $scope.msg = "";
+          $scope.model.msg = "";
 
           var chatIndex = parseInt($stateParams.chatIndex);
           var userIds = $stateParams.chatId.split('-');
@@ -83,7 +83,6 @@ angular.module('chat.messageController', [])
             $scope.model.friendCode = $rootScope.chatList[chatIndex].buserCode;
           }
           $scope.messageNum = 8;
-          console.log($scope.model);
           $timeout(function () {
             viewScroll.scrollBottom();
           }, 0);
@@ -175,11 +174,11 @@ angular.module('chat.messageController', [])
 
         /* TEXT */
         $scope.sendText = function () {
-          sendSocketMessage($scope.msg + MESSAGE_SPACE + $scope.model.friendId + MESSAGE_SPACE + $scope.model.ownPic);
-          var data = generateMessage($scope.msg, $scope.model.ownId, $scope.model.ownPic, 'TEXT');
+          sendSocketMessage($scope.model.msg + MESSAGE_SPACE + $scope.model.friendId + MESSAGE_SPACE + $scope.model.ownPic);
+          var data = generateMessage($scope.model.msg, $scope.model.ownId, $scope.model.ownPic, 'TEXT');
           $scope.messages.push(data);
-          messageService.sendText($scope.model.chatId, $scope.model.ownId, $scope.model.friendCode, $scope.model.ownPic, $scope.msg, 'TEXT');
-          $scope.msg = '';
+          messageService.sendText($scope.model.chatId, $scope.model.ownId, $scope.model.friendCode, $scope.model.ownPic, $scope.model.msg, 'TEXT');
+          $scope.model.msg = '';
           viewScroll.scrollBottom();
         };
         /* TEXT */
@@ -308,7 +307,7 @@ angular.module('chat.messageController', [])
           data.type = 'IMAGE';
           data.mediaId = serverId;
           $scope.messages.push(data);
-          $scope.msg = '';
+          $scope.model.msg = '';
           $timeout(function () {
             document.getElementById(downloadId).src = downloadId;
             viewScroll.scrollBottom();
@@ -343,7 +342,7 @@ angular.module('chat.messageController', [])
           data.mediaId = mediaId;
           $scope.messages.push(data);
           messageService.sendVoice($scope.model.friendCode, mediaId);
-          $scope.msg = '';
+          $scope.model.msg = '';
           viewScroll.scrollBottom();
         };
         /* VOICE */

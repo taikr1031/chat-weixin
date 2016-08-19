@@ -23,13 +23,13 @@ public class Signature {
 
 	Map signMap = null;
 	try {
-	  WxJsapiSignature signatureObj = wxService.createJsapiSignature(url);
-	  signMap = BeanUtils.describe(signatureObj);
+//	  WxJsapiSignature signatureObj = wxService.createJsapiSignature(url);
+//	  signMap = BeanUtils.describe(signatureObj);
 
-//	  signMap = new HashMap();
-//	  signMap.put("timestamp", "123");
-//	  signMap.put("noncestr", "123");
-//	  signMap.put("signature", "123");
+	  signMap = new HashMap();
+	  signMap.put("timestamp", "123");
+	  signMap.put("noncestr", "123");
+	  signMap.put("signature", "123");
 	} catch (Exception e) {
 	  e.printStackTrace();
 	}

@@ -38,7 +38,7 @@ public class MessageController {
 
   private Message generateMessage(String chatId, String ownId, String pic, String msg, String type) throws UnsupportedEncodingException {
     String fristDecodeChatset = "ISO8859-1";
-    String secondDecodeChatset = "GB2312";
+    String secondDecodeChatset = "GBK";
     Message message = new Message();
     message.setChatId(chatId);
     message.setUserId(new String(ownId.getBytes(fristDecodeChatset), secondDecodeChatset));
