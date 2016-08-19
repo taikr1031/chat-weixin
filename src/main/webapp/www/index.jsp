@@ -31,7 +31,7 @@
   <c:set var="userId" value="${sessionScope.SESSION_USERNAME.id}"/>
 </head>
 
-<body ng-app="chat">
+<body ng-app="chat" class="calm-bg calm-border" style="background-color: rgba(0, 0, 0, 0.2)">
   <%@ include file="/jsp/Wxjsapi.jsp" %>
   <ion-nav-view animation="slide-left-right">
   </ion-nav-view>

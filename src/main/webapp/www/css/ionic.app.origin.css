@@ -4570,7 +4570,7 @@ a.subdued {
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
   border-color: #E8E8E8;
-  background-color: #44AEDE;
+  background-color: #f8f8f8;
   background-image: linear-gradient(0deg, #E8E8E8, #E8E8E8 50%, transparent 50%);
   color: #444;
   position: absolute;

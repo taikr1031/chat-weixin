@@ -1,4 +1,4 @@
-<ion-header-bar align-title="left" class="bar-dark">
+<ion-header-bar align-title="left" class="bar-positive">
   <div class="h1 title">微信（{{totalNoReadMsgNum}}）<span style="text-align: center; width: 100%; float: none">【{{ownName}}】</span></div>
   <div class="buttons">
     <button class="button no-animation button-icon icon ion-android-search">
@@ -8,11 +8,11 @@
   </div>
 </ion-header-bar>
 
-<ion-view>
+<ion-view style="color: #44AEDE; background-color: #44AEDE; border-color: #44AEDE">
   <ion-content on-swipe-left="onSwipeLeft()">
     <ion-list rj-close-back-drop>
       <ion-item class="item-avatar" ng-class="{'rj-item-top': chat.isTop}" on-hold="popupMessageOpthins(message)"
-                rj-hold-active ng-repeat="chat in chats | orderBy:['isTop']:false"
+                rj-hold-active ng-repeat="chat in chats | orderBy:['isTop']:false" style="color: #44AEDE; background-color: #44AEDE; border-color: #44AEDE"
                 ng-click="toMessage(chat.id, model.ownId, model.userName, $index)">
         <img ng-if="model.ownId == chat.auserId" ng-src="{{chat.buserPic}}" ng-init="friendId=chat.buserId">
         <img ng-if="model.ownId == chat.buserId" ng-src="{{chat.auserPic}}" ng-init="friendId=chat.auserId">

@@ -5,8 +5,8 @@
   }
 </style>
 
-<ion-header-bar align-title="left" class="bar-dark">
-  <div class="h1 title">微信(16)</div>
+<ion-header-bar align-title="left" class="bar-positive">
+  <div class="h1 title">微信</div>
   <div class="buttons">
     <button class="button no-animation button-icon icon ion-android-search">
     </button>
@@ -15,7 +15,7 @@
   </div>
 </ion-header-bar>
 
-<ion-view>
+<ion-view style="background-color: #44AEDE">
   <ion-content>
     <!--<ion-list can-swipe="listCanSwipe">-->
       <!--<ion-item ng-repeat="friend in friends.$$state.value.userList" class="item-thumbnail-left">-->
@@ -27,11 +27,11 @@
 
 
     <div class="list item-avatar">
-      <div class="item item-avatar my-image-item"
+      <div class="item item-avatar my-image-item" style="color: #44AEDE; background-color: #44AEDE; border-color: #44AEDE"
            collection-repeat="friend in friends.$$state.value.userList"
            collection-item-width="'33%'"
-           collection-item-height="'33%'" ng-click="loginChat(friend.name, friend.password)">
-        <img src="{{friend.picture.thumbnail}}" width="50px" height="50px">
+           collection-item-height="'20%'" ng-click="loginChat(friend.name, friend.password)">
+        <img src="{{friend.picture.thumbnail}}" width="70px" height="70px">
         <h2>{{friend.name}}</h2>
         <p>{{friend.gender}}</p>
       </div>
