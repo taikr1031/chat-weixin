@@ -13,16 +13,16 @@ angular.module('chat.messageService', [])
           },
 
           sendWxMessage: function (chatId, ownId, openid, ownPic, msg, type) {
-            var msgs = msg.split('◆');
-            for(var i = 0; i < msgs.length; i++) {
-              var wxUrl = SITE + '/wxServlet?type=' + type + '&openid=' + openid + '&content=' + msgs[i];
+            //var msgs = msg.split('◆');
+            //for(var i = 0; i < msgs.length; i++) {
+              var wxUrl = SITE + '/wxServlet?type=' + type + '&openid=' + openid + '&content=' + msg;
               return $http.get(wxUrl).then(function (res) {
                 var saveUrl = SITE + '/message/save';
                 var data = {
                   chatId: chatId,
                   userId: ownId,
                   pic: ownPic,
-                  content: msgs[i],
+                  content: msg,
                   type: type
                 };
                 $http({
@@ -33,7 +33,7 @@ angular.module('chat.messageService', [])
                   console.log(res.data);
                 })
               });
-            }
+            //}
           },
 
           //sendWxImage: function (chatId, ownId, openid, ownPic, msg, type) {

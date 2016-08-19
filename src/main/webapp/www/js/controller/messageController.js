@@ -96,6 +96,7 @@ angular.module('chat.messageController', [])
           }, 1);
         };
 
+        /*  WEBSOCKET   */
         var ws = null;
         // 连接到spring的websocket
         var connect = function () {
@@ -111,17 +112,16 @@ angular.module('chat.messageController', [])
             }
             var param = event.data;
             var ownId = ($scope.model.chatId.split('-')[0] == $scope.model.ownId) ? $scope.model.chatId.split('-')[1] : $scope.model.chatId.split('-')[0];
-
-            var msg, pic;
+            var msg, pic, type;
             if (param.indexOf(MESSAGE_SPACE) != -1) {
               msg = param.split(MESSAGE_SPACE)[0];
               pic = param.split(MESSAGE_SPACE)[2];
+              type = param.split(MESSAGE_SPACE)[3];
             } else {
               msg = param;
               pic = '';
             }
-
-            var data = generateMessage(msg, ownId, pic, 'TEXT');
+            var data = generateMessage(msg, ownId, pic, null, type);
             $scope.messages.push(data);
             $timeout(function () {
               viewScroll.scrollBottom();
@@ -141,6 +141,7 @@ angular.module('chat.messageController', [])
           }
           setConnected(false);
         };
+        /*  WEBSOCKET   */
 
         // 用户发送微信消息后，同时通过websocket发给服务器，服务器通过websocket给收信人推送一条消息，收信人的ws.onmessage事件回调函数将该消息自动显示在聊天界面最下方，
         var sendWsMessage = function (message) {
@@ -161,10 +162,10 @@ angular.module('chat.messageController', [])
 
         /* TEXT */
         $scope.sendText = function () {
-          sendWsMessage($scope.model.msg + MESSAGE_SPACE + $scope.model.friendId + MESSAGE_SPACE + $scope.model.ownPic);
-          var data = generateMessage($scope.model.msg, $scope.model.ownId, $scope.model.ownPic, 'TEXT');
-          $scope.messages.push(data);
+          sendWsMessage($scope.model.msg + MESSAGE_SPACE + $scope.model.friendId + MESSAGE_SPACE + $scope.model.ownPic + MESSAGE_SPACE + 'TEXT');
           messageService.sendWxMessage($scope.model.chatId, $scope.model.ownId, $scope.model.friendCode, $scope.model.ownPic, $scope.model.msg, 'TEXT');
+          var data = generateMessage($scope.model.msg, $scope.model.ownId, $scope.model.ownPic, null, 'TEXT');
+          $scope.messages.push(data);
           $scope.model.msg = '';
           viewScroll.scrollBottom();
         };
@@ -255,8 +256,12 @@ angular.module('chat.messageController', [])
                 images.downloadId = downloadImage(images.serverId);
                 $timeout(function () {
                   for (var i = 0; i < images.serverId.length; i++) {
-                    sendWxImages(images.serverId[i]);
-                    putNewMessage(images.serverId[i], images.downloadId[i], 'IMAGE');
+                    messageService.sendWxMessage($scope.model.chatId, $scope.model.ownId, $scope.model.friendCode, $scope.model.ownPic, images.serverId[i], 'IMAGE');
+                    sendWsMessage(images.serverId[i] + MESSAGE_SPACE + $scope.model.friendId + MESSAGE_SPACE + $scope.model.ownPic + MESSAGE_SPACE + 'IMAGE');
+                    var data = generateMessage(images.downloadId[i], $scope.model.ownId, 'PIC', images.serverId[i], 'IMAGE');
+                    $scope.messages.push(data);
+                    $scope.model.msg = '';
+                    //attachNewMessage(images.serverId[i], images.downloadId[i], 'IMAGE');
                     $timeout(function () {
                       document.getElementById(downloadId).src = downloadId;
                       viewScroll.scrollBottom();
@@ -265,24 +270,11 @@ angular.module('chat.messageController', [])
                 }, 100);
               }
               $ionicLoading.hide();
-              sendWsImages();
             }, fail: function (res) {
               $ionicLoading.hide();
               alert('uploadImages error: ' + JSON.stringify(res));
             }
           })
-        };
-
-        var sendWsImages = function() {
-          var serverIds;
-          if (images.serverId.length > 0)
-            serverIds = images.serverId.join("◆");
-          //sendWsMessage(serverIds + MESSAGE_SPACE + $scope.model.friendId + MESSAGE_SPACE + $scope.model.ownPic);
-          var data = generateMessage(serverIds, $scope.model.ownId, $scope.model.ownPic, 'IMAGE');
-          $scope.messages.push(data);
-          messageService.sendWxMessage($scope.model.chatId, $scope.model.ownId, $scope.model.friendCode, $scope.model.ownPic, serverIds, 'IMAGE');
-          $scope.model.msg = '';
-          viewScroll.scrollBottom();
         };
 
         var downloadImage = function (serverIds) {
@@ -303,8 +295,20 @@ angular.module('chat.messageController', [])
           return images.downloadId;
         };
 
-        var sendWxImages = function (serverId) {
-          messageService.sendWxMessage($scope.model.friendCode, serverId);
+        //var sendWsImages = function() {
+        //  var serverIds;
+        //  if (images.serverId.length > 0)
+        //    serverIds = images.serverId.join("◆");
+        //  sendWsMessage(serverIds + MESSAGE_SPACE + $scope.model.friendId + MESSAGE_SPACE + $scope.model.ownPic);
+        //  var data = generateMessage(serverIds, $scope.model.ownId, $scope.model.ownPic, 'IMAGE');
+        //  $scope.messages.push(data);
+        //  messageService.sendWxMessage($scope.model.chatId, $scope.model.ownId, $scope.model.friendCode, $scope.model.ownPic, serverIds, 'IMAGE');
+        //  $scope.model.msg = '';
+        //  viewScroll.scrollBottom();
+        //};
+
+        //var sendWxImages = function (serverId) {
+        //  messageService.sendWxMessage($scope.model.friendCode, serverId);
           //var data = {};
           //data.content = downloadId;
           //data.userId = $scope.model.ownId;
@@ -317,17 +321,28 @@ angular.module('chat.messageController', [])
           //  document.getElementById(downloadId).src = downloadId;
           //  viewScroll.scrollBottom();
           //}, 0);
-        };
+        //};
 
-        var putNewMessage = function(serverId, downloadId, type) {
+        //var attachNewMessage = function(serverId, downloadId, type) {
+        //  var data = {};
+        //  data.content = downloadId;
+        //  data.userId = $scope.model.ownId;
+        //  data.time = new Date();
+        //  data.type = type;
+        //  data.mediaId = serverId;
+        //  $scope.messages.push(data);
+        //  $scope.model.msg = '';
+        //};
+
+        var generateMessage = function (msg, ownId, pic, mediaId, type) {
           var data = {};
-          data.content = downloadId;
-          data.userId = $scope.model.ownId;
+          data.content = msg;
+          data.userId = ownId;
           data.time = new Date();
           data.type = type;
-          data.mediaId = serverId;
-          $scope.messages.push(data);
-          $scope.model.msg = '';
+          data.pic = pic;
+          data.mediaId = null;
+          return data;
         };
 
         $scope.previewImage = function (downloadId) {
@@ -362,17 +377,6 @@ angular.module('chat.messageController', [])
           viewScroll.scrollBottom();
         };
         /* VOICE */
-
-        var generateMessage = function (msg, ownId, pic, type) {
-          var data = {};
-          data.content = msg;
-          data.userId = ownId;
-          data.time = new Date();
-          data.type = type;
-          data.pic = pic;
-          data.mediaId = null;
-          return data;
-        };
 
         $scope.toggleInput = function (isInputText) {
           $scope.isInputText = !isInputText;

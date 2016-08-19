@@ -1,5 +1,6 @@
 package com.zm.weixin;
 
+import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
 import me.chanjar.weixin.mp.api.WxMpService;
@@ -12,7 +13,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 
 @WebServlet(name = "/wxServlet", urlPatterns = "/wxServlet", loadOnStartup = 1,
@@ -21,7 +24,7 @@ import java.io.UnsupportedEncodingException;
 				@WebInitParam(name = "token", value = "12345678901234567890123456789012")})
 public class wxServlet extends HttpServlet {
 
-  private WxMpService wxService = new WxMpServiceImpl();
+  private WxMpService wxMpService = new WxMpServiceImpl();
 
   public void init() {
 	WxMpInMemoryConfigStorage config = new WxMpInMemoryConfigStorage();
@@ -30,7 +33,7 @@ public class wxServlet extends HttpServlet {
 	config.setToken(getServletConfig().getInitParameter("token")); // 设置微信公众号的token
 //	config.setAesKey(""); // 设置微信公众号的EncodingAESKey
 
-	wxService.setWxMpConfigStorage(config);
+	wxMpService.setWxMpConfigStorage(config);
   }
 
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -47,7 +50,7 @@ public class wxServlet extends HttpServlet {
   public void sendMedia(String type, String fileName) {
 	String url = "https://api.weixin.qq.com/cgi-bin/media/upload?access_token=ACCESS_TOKEN&type=TYPE";
 	try {
-	  url.replace("ACCESS_TOKEN", wxService.getAccessToken());
+	  url.replace("ACCESS_TOKEN", wxMpService.getAccessToken());
 	  url.replace("TYPE", type);
 	  url.replace("media", fileName);
 	} catch (WxErrorException e) {
@@ -69,6 +72,29 @@ public class wxServlet extends HttpServlet {
 	try {
 //	  wxService.customMessageSend(message);
 	} catch (Exception e) {
+	  e.printStackTrace();
+	}
+  }
+
+  public File mediaDownload(String mediaId) throws WxErrorException {
+	return wxMpService.mediaDownload(mediaId);
+  }
+
+  public void mediaUpload(String mediaType, String fileType) {
+	InputStream inputStream = null;
+	File file = null;
+	WxMediaUploadResult res = null;
+	try {
+	  res = wxMpService.mediaUpload(mediaType, fileType, inputStream);
+	  // 或者
+	  res = wxMpService.mediaUpload(mediaType, file);
+	  res.getType();
+	  res.getCreatedAt();
+	  res.getMediaId();
+	  res.getThumbMediaId();
+	} catch (WxErrorException e) {
+	  e.printStackTrace();
+	} catch (IOException e) {
 	  e.printStackTrace();
 	}
   }

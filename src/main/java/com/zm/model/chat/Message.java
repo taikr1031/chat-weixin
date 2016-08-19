@@ -10,7 +10,7 @@ public class Message extends GenericObject {
 
   private String chatId;
   private String userId;
-  private String content;
+  private Object content;
   private String pic;
   private String type;
   private String mediaId;
@@ -33,11 +33,11 @@ public class Message extends GenericObject {
 	this.userId = userId;
   }
 
-  public String getContent() {
+  public Object getContent() {
 	return content;
   }
 
-  public void setContent(String content) {
+  public void setContent(Object content) {
 	this.content = content;
   }
 

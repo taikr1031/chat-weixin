@@ -12,7 +12,7 @@
 
 <ion-content class="rj-stable-content" delegate-handle="messageDetailsScroll" id="message-detail-content" style="color: #28A1D8; background-color: #28A1D8; border-color: #7b8996">
   <ion-refresher pulling-text="..." on-refresh="doRefresh()" pulling-icon=""></ion-refresher>
-  <div ng-repeat="item in messages" style="alpha:0.5; color: #28A1D8; background-color: #28A1D8; border-color: #28A1D8">
+  <div ng-repeat="item in messages | orderBy: 'time'" style="alpha:0.5; color: #28A1D8; background-color: #28A1D8; border-color: #28A1D8">
     <p class="rj-message-time" ng-bind="item.time" ng-if="false"></p>
     <div class="rj-message-wrap" ng-if="item.userId != model.ownId" style="alpha:0.5; color: #28A1D8; background-color: #28A1D8; border-color: #28A1D8">
       <img ng-src="{{item.pic}}" class="rj-head-pic">

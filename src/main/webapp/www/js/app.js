@@ -1,4 +1,4 @@
-var IP = '10.68.19.114';
+var IP = '192.168.1.8';
 var PORT = '8080';
 var SITE = 'http://' + IP + ':' + PORT;
 var MESSAGE_SPACE = '___';

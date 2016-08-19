@@ -42,7 +42,7 @@
 </form>
 </body>
 <script type="text/javascript">
-  var socket = io.connect('http://10.68.19.114:8088');
+  var socket = io.connect('http://192.168.1.8:8088');
   socket.on('connect', function () {
     output('<span class="connect-msg">Client has connected to the server!</span>');
   });
