@@ -12,7 +12,7 @@
   <ion-content on-swipe-left="onSwipeLeft()">
     <ion-list rj-close-back-drop>
       <ion-item class="item-avatar" ng-class="{'rj-item-top': chat.isTop}" on-hold="popupMessageOpthins(message)"
-                rj-hold-active ng-repeat="chat in chats | orderBy:['isTop']:false" style="color: #44AEDE; background-color: #44AEDE; border-color: #44AEDE"
+                rj-hold-active ng-repeat="chat in chats | orderBy:['isTop']:false" style="color: #44AEDE; background-color: #44AEDE; border-color: #7b8996"
                 ng-click="toMessage(chat.id, model.ownId, model.userName, $index)">
         <img ng-if="model.ownId == chat.auserId" ng-src="{{chat.buserPic}}" ng-init="friendId=chat.buserId">
         <img ng-if="model.ownId == chat.buserId" ng-src="{{chat.auserPic}}" ng-init="friendId=chat.auserId">

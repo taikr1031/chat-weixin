@@ -12,41 +12,43 @@ angular.module('chat.messageService', [])
             return deferred.promise;
           },
 
-          sendText: function (chatId, ownId, openid, ownPic, msg, type) {
-            var wxUrl = 'http://' + IP + ':' + PORT + '/wxServlet?type=TEXT&openid=' + openid + '&content=' + msg;
-            return $http.get(wxUrl).then(function (res) {
-              console.log('TEXT success');
-              var saveUrl = SITE + '/message/save';
-              var data = {
-                chatId: chatId,
-                userId: ownId,
-                pic: ownPic,
-                content: msg,
-                type: type
-              };
-              $http({
-                method: 'POST',
-                url: saveUrl,
-                data: data
-              }).then(function (res) {
-                console.log(res.data);
-              })
-            });
+          sendWxMessage: function (chatId, ownId, openid, ownPic, msg, type) {
+            var msgs = msg.split('◆');
+            for(var i = 0; i < msgs.length; i++) {
+              var wxUrl = SITE + '/wxServlet?type=' + type + '&openid=' + openid + '&content=' + msgs[i];
+              return $http.get(wxUrl).then(function (res) {
+                var saveUrl = SITE + '/message/save';
+                var data = {
+                  chatId: chatId,
+                  userId: ownId,
+                  pic: ownPic,
+                  content: msgs[i],
+                  type: type
+                };
+                $http({
+                  method: 'POST',
+                  url: saveUrl,
+                  data: data
+                }).then(function (res) {
+                  console.log(res.data);
+                })
+              });
+            }
           },
 
-          sendImage: function (openid, msg) {
-            var url = SITE + '/wxServlet?type=IMAGE&openid=' + openid + '&content=' + msg;
-            return $http.get(url).then(function (res) {
-              console.log('IMAGE success');
-            });
-          },
-
-          sendVoice: function (openid, mediaId) {
-            var url = SITE + '/wxServlet?type=VOICE&openid=' + openid + '&content=' + mediaId;
-            return $http.get(url).then(function (res) {
-              console.log('VOICE success');
-            });
-          }
+          //sendWxImage: function (chatId, ownId, openid, ownPic, msg, type) {
+          //  var url = SITE + '/wxServlet?type=IMAGE&openid=' + openid + '&content=' + msg;
+          //  return $http.get(url).then(function (res) {
+          //    console.log('IMAGE success');
+          //  });
+          //},
+          //
+          //sendVoice: function (openid, mediaId) {
+          //  var url = SITE + '/wxServlet?type=VOICE&openid=' + openid + '&content=' + mediaId;
+          //  return $http.get(url).then(function (res) {
+          //    console.log('VOICE success');
+          //  });
+          //}
         };
       }
     );

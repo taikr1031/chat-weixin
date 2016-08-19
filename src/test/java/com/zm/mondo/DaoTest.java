@@ -7,6 +7,7 @@ import com.mongodb.WriteResult;
 import com.zm.model.chat.Chat;
 import com.zm.model.chat.Message;
 //import org.junit.Test;
+import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -21,7 +22,7 @@ import java.util.List;
 
 public class DaoTest {
 
-//  @Test
+  @Test
   public void testQuery() {
 	Query query = new Query();
 	query.addCriteria(Criteria.where("id").is("1-2").and("messages.userId").is("1").and("messages.read").exists(true));
@@ -30,7 +31,7 @@ public class DaoTest {
 	Assert.notNull(num);
   }
 
-//  @Test
+  @Test
   public void testUpdate() {
 	String chatId = "1-2";
 	String userId = "1";
@@ -44,7 +45,7 @@ public class DaoTest {
 	System.out.print(writeResult);
   }
 
-  //  @Test
+    @Test
   public void testUpdateByDriver() {
 	MongoClient client = null;
 	try {
@@ -65,7 +66,7 @@ public class DaoTest {
 	}
   }
 
-//  @Test
+  @Test
   public void testGetNoReadMsgNum() {
 	String chatId = "1-2";
 	String userId = "1";

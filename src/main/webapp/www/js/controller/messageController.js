@@ -143,9 +143,9 @@ angular.module('chat.messageController', [])
         };
 
         // 用户发送微信消息后，同时通过websocket发给服务器，服务器通过websocket给收信人推送一条消息，收信人的ws.onmessage事件回调函数将该消息自动显示在聊天界面最下方，
-        var sendSocketMessage = function (message) {
+        var sendWsMessage = function (message) {
           if (ws != null) {
-            log('sendSocketMessage: ' + message);
+            log('sendWsMessage: ' + message);
             ws.send(message);
           } else {
             alert('connection not established, please connect.');
@@ -161,10 +161,10 @@ angular.module('chat.messageController', [])
 
         /* TEXT */
         $scope.sendText = function () {
-          sendSocketMessage($scope.model.msg + MESSAGE_SPACE + $scope.model.friendId + MESSAGE_SPACE + $scope.model.ownPic);
+          sendWsMessage($scope.model.msg + MESSAGE_SPACE + $scope.model.friendId + MESSAGE_SPACE + $scope.model.ownPic);
           var data = generateMessage($scope.model.msg, $scope.model.ownId, $scope.model.ownPic, 'TEXT');
           $scope.messages.push(data);
-          messageService.sendText($scope.model.chatId, $scope.model.ownId, $scope.model.friendCode, $scope.model.ownPic, $scope.model.msg, 'TEXT');
+          messageService.sendWxMessage($scope.model.chatId, $scope.model.ownId, $scope.model.friendCode, $scope.model.ownPic, $scope.model.msg, 'TEXT');
           $scope.model.msg = '';
           viewScroll.scrollBottom();
         };
@@ -227,13 +227,13 @@ angular.module('chat.messageController', [])
               sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
               success: function (res) {
                 images.localId = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-                uploadImage(images.localId);
+                uploadImages(images.localId);
               }
             });
           });
         };
 
-        var uploadImage = function (localIds) {
+        var uploadImages = function (localIds) {
           $('body,html').animate({scrollTop: 0}, 500);
           $ionicLoading.show({
             template: '图片上传中  ...'
@@ -250,28 +250,46 @@ angular.module('chat.messageController', [])
               images.serverId.push(res.serverId);
               uploadedCount++;
               if (localIdsClone.length > 0) {
-                uploadImage(localIdsClone);
+                uploadImages(localIdsClone);
               } else {
                 images.downloadId = downloadImage(images.serverId);
                 $timeout(function () {
                   for (var i = 0; i < images.serverId.length; i++) {
-                    sendImages(images.serverId[i], images.downloadId[i]);
+                    sendWxImages(images.serverId[i]);
+                    putNewMessage(images.serverId[i], images.downloadId[i], 'IMAGE');
+                    $timeout(function () {
+                      document.getElementById(downloadId).src = downloadId;
+                      viewScroll.scrollBottom();
+                    }, 0);
                   }
                 }, 100);
               }
               $ionicLoading.hide();
+              sendWsImages();
             }, fail: function (res) {
               $ionicLoading.hide();
-              alert('uploadImage error: ' + JSON.stringify(res));
+              alert('uploadImages error: ' + JSON.stringify(res));
             }
           })
+        };
+
+        var sendWsImages = function() {
+          var serverIds;
+          if (images.serverId.length > 0)
+            serverIds = images.serverId.join("◆");
+          //sendWsMessage(serverIds + MESSAGE_SPACE + $scope.model.friendId + MESSAGE_SPACE + $scope.model.ownPic);
+          var data = generateMessage(serverIds, $scope.model.ownId, $scope.model.ownPic, 'IMAGE');
+          $scope.messages.push(data);
+          messageService.sendWxMessage($scope.model.chatId, $scope.model.ownId, $scope.model.friendCode, $scope.model.ownPic, serverIds, 'IMAGE');
+          $scope.model.msg = '';
+          viewScroll.scrollBottom();
         };
 
         var downloadImage = function (serverIds) {
           var serverIdsClone = serverIds.slice();
           var serverId = serverIdsClone.pop();
           wx.downloadImage({
-            serverId: serverId, // 需要下载的图片的服务器端ID，由uploadImage接口获得
+            serverId: serverId, // 需要下载的图片的服务器端ID，由uploadImages接口获得
             isShowProgressTips: 0, // 默认为1，显示进度提示
             success: function (res) {
               images.downloadId.push(res.localId); // 返回图片下载后的本地ID
@@ -285,20 +303,31 @@ angular.module('chat.messageController', [])
           return images.downloadId;
         };
 
-        var sendImages = function (serverId, downloadId) {
-          messageService.sendImage($scope.model.friendCode, serverId);
+        var sendWxImages = function (serverId) {
+          messageService.sendWxMessage($scope.model.friendCode, serverId);
+          //var data = {};
+          //data.content = downloadId;
+          //data.userId = $scope.model.ownId;
+          //data.time = new Date();
+          //data.type = 'IMAGE';
+          //data.mediaId = serverId;
+          //$scope.messages.push(data);
+          //$scope.model.msg = '';
+          //$timeout(function () {
+          //  document.getElementById(downloadId).src = downloadId;
+          //  viewScroll.scrollBottom();
+          //}, 0);
+        };
+
+        var putNewMessage = function(serverId, downloadId, type) {
           var data = {};
           data.content = downloadId;
           data.userId = $scope.model.ownId;
           data.time = new Date();
-          data.type = 'IMAGE';
+          data.type = type;
           data.mediaId = serverId;
           $scope.messages.push(data);
           $scope.model.msg = '';
-          $timeout(function () {
-            document.getElementById(downloadId).src = downloadId;
-            viewScroll.scrollBottom();
-          }, 0);
         };
 
         $scope.previewImage = function (downloadId) {

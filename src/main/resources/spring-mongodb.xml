@@ -69,5 +69,11 @@
     <constructor-arg name="mongoConverter" ref="mongoConverter"/>
   </bean>
 
+  <mongo:mapping-converter id="converter" />
+
+  <bean class="org.springframework.data.mongodb.gridfs.GridFsTemplate">
+    <constructor-arg ref="mongoDbFactory" />
+    <constructor-arg ref="converter" />
+  </bean>
 
 </beans>
