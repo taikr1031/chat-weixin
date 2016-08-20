@@ -23,12 +23,13 @@ public class ChatInitDB {
 	  Thread.sleep(1000);
 	  createChat(mongoService, "1", "ZM", "oMPxav8gQa7VgRFjILtzRX_lhymE", "3", "LJ", "oMPxav8EjT7cotajZ7_YSisGbFtc", 33);
 	  Thread.sleep(1000);
-	  createChat(mongoService, "1", "ZM", "oMPxav8gQa7VgRFjILtzRX_lhymE", "4", "WY", "code4", 44);
+	  createChat(mongoService, "1", "ZM", "oMPxav8gQa7VgRFjILtzRX_lhymE", "4", "ZZL", "oMPxav7E8tYZADIRz58AEcez-RAo", 44);
 	  Thread.sleep(1000);
-	System.out.print("dddddddddddd");
+
 	  createChat(mongoService, "2", "YJ", "oMPxav6aC_TuPncPkgHhE998bboA", "3", "LJ", "oMPxav8EjT7cotajZ7_YSisGbFtc", 33);
 	  Thread.sleep(1000);
-	  createChat(mongoService, "2", "YJ", "oMPxav6aC_TuPncPkgHhE998bboA", "4", "WY", "code4", 44);
+	  createChat(mongoService, "2", "YJ", "oMPxav6aC_TuPncPkgHhE998bboA", "4", "ZZL", "oMPxav7E8tYZADIRz58AEcez-RAo", 44);
+	  Thread.sleep(1000);
 	} catch (InterruptedException e) {
 	  e.printStackTrace();
 	}

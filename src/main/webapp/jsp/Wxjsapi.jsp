@@ -31,6 +31,8 @@
         wx.config(config);
         console.log(config);
         wx.ready(function () {
+          alert(config.jsApiList);
+          console.log(config.jsApiList);
           if (wxjs.hideMenu) {
             wx.hideOptionMenu();
           }

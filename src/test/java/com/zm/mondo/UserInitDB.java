@@ -37,7 +37,7 @@ public class UserInitDB extends GenericMongoServiceImpl<User>{
 	user.setPhone("phone" + own);
 	user.setCell("cell" + own);
 	user.setEmail(own + "@qq.com");
-	user.setGender("女");
+	user.setGender(sex);
 	user.setTime(new Timestamp(System.currentTimeMillis()));
 	Location location = new Location();
 	location.setState("中国");

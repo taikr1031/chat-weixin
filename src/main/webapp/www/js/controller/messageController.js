@@ -112,7 +112,7 @@ angular.module('chat.messageController', [])
             }
             var param = event.data;
             var ownId = ($scope.model.chatId.split('-')[0] == $scope.model.ownId) ? $scope.model.chatId.split('-')[1] : $scope.model.chatId.split('-')[0];
-            var msg, pic, type;
+            var msg, pic, type, mediaId;
             if (param.indexOf(MESSAGE_SPACE) != -1) {
               msg = param.split(MESSAGE_SPACE)[0];
               pic = param.split(MESSAGE_SPACE)[2];
@@ -121,7 +121,12 @@ angular.module('chat.messageController', [])
               msg = param;
               pic = '';
             }
-            var data = generateMessage(msg, ownId, pic, null, type);
+            if(type == 'IMAGE') {
+              var downloadId = down(msg);
+              mediaId = msg;
+              msg = downloadId;
+            }
+            var data = generateMessage(msg, ownId, pic, mediaId, type);
             $scope.messages.push(data);
             $timeout(function () {
               viewScroll.scrollBottom();
@@ -258,12 +263,12 @@ angular.module('chat.messageController', [])
                   for (var i = 0; i < images.serverId.length; i++) {
                     messageService.sendWxMessage($scope.model.chatId, $scope.model.ownId, $scope.model.friendCode, $scope.model.ownPic, images.serverId[i], 'IMAGE');
                     sendWsMessage(images.serverId[i] + MESSAGE_SPACE + $scope.model.friendId + MESSAGE_SPACE + $scope.model.ownPic + MESSAGE_SPACE + 'IMAGE');
-                    var data = generateMessage(images.downloadId[i], $scope.model.ownId, 'PIC', images.serverId[i], 'IMAGE');
+                    var data = generateMessage(images.downloadId[i], $scope.model.ownId, $scope.model.ownPic, images.serverId[i], 'IMAGE');
                     $scope.messages.push(data);
                     $scope.model.msg = '';
                     //attachNewMessage(images.serverId[i], images.downloadId[i], 'IMAGE');
                     $timeout(function () {
-                      document.getElementById(downloadId).src = downloadId;
+                      //document.getElementById(downloadId).src = downloadId;
                       viewScroll.scrollBottom();
                     }, 0);
                   }
@@ -280,19 +285,20 @@ angular.module('chat.messageController', [])
         var downloadImage = function (serverIds) {
           var serverIdsClone = serverIds.slice();
           var serverId = serverIdsClone.pop();
+
+          return images.downloadId;
+        };
+
+        var down = function(serverId) {
           wx.downloadImage({
             serverId: serverId, // 需要下载的图片的服务器端ID，由uploadImages接口获得
             isShowProgressTips: 0, // 默认为1，显示进度提示
             success: function (res) {
-              images.downloadId.push(res.localId); // 返回图片下载后的本地ID
-              if (serverIdsClone.length > 0) {
-                downloadImage(serverIdsClone);
-              }
+              return res.localId; // 返回图片下载后的本地ID
             }, fail: function (res) {
               alert('downloadImage error: ' + JSON.stringify(res));
             }
           });
-          return images.downloadId;
         };
 
         //var sendWsImages = function() {
@@ -341,7 +347,7 @@ angular.module('chat.messageController', [])
           data.time = new Date();
           data.type = type;
           data.pic = pic;
-          data.mediaId = null;
+          data.mediaId = mediaId;
           return data;
         };
 

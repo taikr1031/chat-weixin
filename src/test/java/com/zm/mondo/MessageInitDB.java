@@ -1,14 +1,10 @@
 package com.zm.mondo;
 
-import com.zm.model.chat.Chat;
 import com.zm.model.chat.Message;
 import com.zm.mongo.core.GenericMongoService;
 import com.zm.mongo.core.GenericMongoServiceImpl;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import java.sql.Timestamp;
-import java.util.Date;
 
 public class MessageInitDB {
 
