@@ -39,7 +39,7 @@ public class MessageInitDB {
 	msg1.setChatId(chatId);
 	msg1.setUserId(userId);
 	msg1.setContent("content" + 1);
-	msg1.setPic("/www/img/" + userId + ".png");
+	msg1.setPic("img/" + userId + ".png");
 	msg1.setType("TEXT");
 	msg1.setMediaId("mdeia" + userId);
 	msg1.setRead(false);

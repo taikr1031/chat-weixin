@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.util.WebUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 @RequestMapping("/login")
@@ -23,10 +25,11 @@ public class LoginController {
   private LoginService loginService;
 
   @RequestMapping("/login/{username}/{password}")
-  public User login(@PathVariable("username") String username, @PathVariable("password") String password, HttpServletRequest httpRequest) throws ServletException {
+  public User login(@PathVariable("username") String username, @PathVariable("password") String password, HttpServletRequest request, HttpServletResponse response) throws ServletException {
+	response.setHeader("Access-Control-Allow-Origin", "*"); //允许所有域名访问
 	User user = loginService.login(username, password);
 	if(user.getName() != null) {
-	  httpRequest.getSession().setAttribute(Constants.SESSION_USERNAME, user);
+	  request.getSession().setAttribute(Constants.SESSION_USERNAME, user);
 	  participantRepository.add(user.getCode(), user);
 	  return user;
 	}

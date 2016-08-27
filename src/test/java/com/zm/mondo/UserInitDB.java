@@ -26,6 +26,7 @@ public class UserInitDB extends GenericMongoServiceImpl<User>{
 	createUser(mongoService, "2", "女", "YJ", "oMPxav6aC_TuPncPkgHhE998bboA");
 	createUser(mongoService, "3", "男", "LJ", "oMPxav8EjT7cotajZ7_YSisGbFtc");
 	createUser(mongoService, "4", "女", "ZZL", "oMPxav7E8tYZADIRz58AEcez-RAo");
+	createUser(mongoService, "5", "女", "ZLX", "oMPxav93ynP6srp8QquPxqUF2ClA");
   }
 
   private static void createUser(GenericMongoService mongoService, String own, String sex, String name, String code) {
@@ -46,9 +47,9 @@ public class UserInitDB extends GenericMongoServiceImpl<User>{
 	location.setZip(430064);
 	user.setLocation(location);
 	Picture picture = new Picture();
-	picture.setLarge("/www/img/" + own + ".png");
-	picture.setMedium("/www/img/" + own + ".png");
-	picture.setThumbnail("/www/img/" + own + ".png");
+	picture.setLarge("img/" + own + ".png");
+	picture.setMedium("img/" + own + ".png");
+	picture.setThumbnail("img/" + own + ".png");
 	user.setPicture(picture);
 
 	mongoService.saveObject(user);

@@ -25,6 +25,8 @@ public class ChatInitDB {
 	  Thread.sleep(1000);
 	  createChat(mongoService, "1", "ZM", "oMPxav8gQa7VgRFjILtzRX_lhymE", "4", "ZZL", "oMPxav7E8tYZADIRz58AEcez-RAo", 44);
 	  Thread.sleep(1000);
+	  createChat(mongoService, "1", "ZM", "oMPxav8gQa7VgRFjILtzRX_lhymE", "5", "ZLX", "oMPxav93ynP6srp8QquPxqUF2ClA", 44);
+	  Thread.sleep(1000);
 
 	  createChat(mongoService, "2", "YJ", "oMPxav6aC_TuPncPkgHhE998bboA", "3", "LJ", "oMPxav8EjT7cotajZ7_YSisGbFtc", 33);
 	  Thread.sleep(1000);
@@ -40,8 +42,8 @@ public class ChatInitDB {
 	chat.setId(auserId, buserId);
 	chat.setAuserId(auserId);
 	chat.setBuserId(buserId);
-	chat.setAuserPic("/www/img/" + auserId + ".png");
-	chat.setBuserPic("/www/img/" + buserId + ".png");
+	chat.setAuserPic("img/" + auserId + ".png");
+	chat.setBuserPic("img/" + buserId + ".png");
 	chat.setAuserCode(auserCode);
 	chat.setBuserCode(buserCode);
 	chat.setAuserName(auserName);

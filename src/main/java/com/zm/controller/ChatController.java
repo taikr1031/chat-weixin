@@ -3,14 +3,18 @@ package com.zm.controller;
 import com.zm.model.chat.Chat;
 import com.zm.model.user.User;
 import com.zm.service.ChatService;
+import com.zm.service.LoginService;
+import com.zm.service.UserService;
 import com.zm.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.util.WebUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,11 +28,16 @@ public class ChatController {
   @Autowired
   private ChatService chatService;
 
-  @RequestMapping("/queryChat")
-  public List<Chat> queryChat(HttpServletRequest request, Model model) {
+  @Autowired
+  private LoginService loginService;
+
+  @RequestMapping("/queryChat/{username}/{password}")
+  public List<Chat> queryChat(@PathVariable("username") String username, @PathVariable("password") String password, HttpServletRequest request, HttpServletResponse response, Model model) {
+	response.setHeader("Access-Control-Allow-Origin", "*"); //允许所有域名访问
 	List<Chat> chats = null;
 	try {
-	  User user = (User) request.getSession().getAttribute(Constants.SESSION_USERNAME);
+	  User user = loginService.login(username, password);
+//	  User user = (User)WebUtils.getSessionAttribute(request, Constants.SESSION_USERNAME);
 	  if (user == null) {
 		return new ArrayList<Chat>();
 	  }
@@ -40,7 +49,8 @@ public class ChatController {
   }
 
   @RequestMapping("/update/{chatId}/{userId}")
-  public void update(@PathVariable String chatId, @PathVariable String userId) {
+  public void update(@PathVariable String chatId, @PathVariable String userId, HttpServletResponse response) {
+	response.setHeader("Access-Control-Allow-Origin", "*"); //允许所有域名访问
 	this.chatService.update(chatId, userId);
   }
 

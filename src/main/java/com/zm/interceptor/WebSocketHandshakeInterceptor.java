@@ -26,6 +26,7 @@ public class WebSocketHandshakeInterceptor implements HandshakeInterceptor {
 
 	if (request instanceof ServletServerHttpRequest) {
 	  ServletServerHttpRequest servletRequest = (ServletServerHttpRequest) request;
+	  servletRequest.getHeaders().set("Access-Control-Allow-Origin", "*");
 	  HttpSession session = servletRequest.getServletRequest().getSession(false);
 	  if (session != null && session.getAttribute(Constants.SESSION_USERNAME) != null) {
 		//使用userName区分WebSocketHandler，以便定向发送消息

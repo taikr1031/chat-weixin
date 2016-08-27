@@ -41,6 +41,7 @@ public class wxServlet extends HttpServlet {
   }
 
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	response.setHeader("Access-Control-Allow-Origin", "*"); //允许所有域名访问
 	String openid = request.getParameter("openid");
 	String content = request.getParameter("content");
 	String type = request.getParameter("type");
